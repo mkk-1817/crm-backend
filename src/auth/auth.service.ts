@@ -33,6 +33,9 @@ export class AuthService {
   }
 
   async register(userData: { email: string; password: string; name: string }) {
+    if (!userData.password) {
+      throw new Error('Password is required')
+    }
     const hashedPassword = await bcrypt.hash(userData.password, 10)
     const user = await this.usersService.create({
       ...userData,
